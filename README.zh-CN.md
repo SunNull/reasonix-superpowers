@@ -59,17 +59,19 @@ install skills from https://github.com/SunNull/reasonix-superpowers
 
 ### 方式二：手动 clone
 
-```sh
-# 项目级（仅当前项目）
-git clone https://github.com/SunNull/reasonix-superpowers.git \
-  .reasonix/skills/superpowers
+这是一套通用开发方法论 skill 包，不针对任何特定项目。**推荐全局安装**，这样所有项目都能使用。
 
-# 全局级（所有项目）
+```sh
+# 全局安装（推荐 — 所有项目可用）
 git clone https://github.com/SunNull/reasonix-superpowers.git \
   ~/.reasonix/skills/superpowers
+
+# 项目级安装（仅当前项目）
+git clone https://github.com/SunNull/reasonix-superpowers.git \
+  .reasonix/skills/superpowers
 ```
 
-Reasonix 会自动发现 `.reasonix/skills/`（项目）和 `~/.reasonix/skills/`（全局）下的 skill。每个 `<name>/SKILL.md` 会被自动识别；`references/*.md` 文件会自动追加到 skill body 中。
+Reasonix 会自动发现 `~/.reasonix/skills/`（全局）和 `.reasonix/skills/`（项目）下的 skill。每个 `<name>/SKILL.md` 会被自动识别；`references/*.md` 文件会自动追加到 skill body 中。
 
 ### 验证安装
 
