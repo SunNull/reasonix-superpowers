@@ -1,12 +1,8 @@
 # Superpowers for Reasonix
-> A complete software development methodology for your [Reasonix](https://github.com/esengine/DeepSeek-Reasonix) coding agent — adapted from [obra/superpowers](https://github.com/obra/superpowers) (228k2b50).
 
-> **English** · [简体中文](./README.zh-CN.md)
-
-> **English** · [简体中文](./README.zh-CN.md)
->
-> **English** · [7b804f534e2d6587](./README.zh-CN.md)
 > A complete software development methodology for your [Reasonix](https://github.com/esengine/DeepSeek-Reasonix) coding agent — adapted from [obra/superpowers](https://github.com/obra/superpowers) (228k⭐).
+>
+> **English** · [简体中文](./README.zh-CN.md)
 
 ## What This Is
 
@@ -166,6 +162,7 @@ reasonix-superpowers/
 │   └── references/
 │       └── reasonix-tools.md    ← tool mapping reference
 ├── README.md
+├── README.zh-CN.md
 └── LICENSE
 ```
 
