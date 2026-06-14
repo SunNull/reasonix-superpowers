@@ -170,7 +170,7 @@ See Reference: anthropic-best-practices below for official skill authoring guida
 
 ## Skill Creation Checklist (TDD Adapted)
 
-**IMPORTANT: Use `todo_write` to create todos for EACH checklist item below.**
+**Use `todo_write` to track these items when the skill creation spans multiple turns. Mark each item completed before ending your turn — never leave items in_progress across turns, as it blocks the readiness check.**
 
 **RED Phase - Write Failing Test:**
 - [ ] Create pressure scenarios (3+ combined pressures for discipline skills)

@@ -47,7 +47,7 @@ digraph skill_flow {
     "Invoke run_skill tool" [shape=box];
     "Announce: 'Using [skill] to [purpose]'" [shape=box];
     "Has checklist?" [shape=diamond];
-    "Create todo_write todo per item" [shape=box];
+    "Track progress with todo_write\n(only for multi-step execution skills,\nmark each step completed before ending turn)" [shape=box];
     "Follow skill exactly" [shape=box];
     "Respond (including clarifications)" [shape=doublecircle];
 
@@ -61,9 +61,9 @@ digraph skill_flow {
     "Might any skill apply?" -> "Respond (including clarifications)" [label="definitely not"];
     "Invoke run_skill tool" -> "Announce: 'Using [skill] to [purpose]'";
     "Announce: 'Using [skill] to [purpose]'" -> "Has checklist?";
-    "Has checklist?" -> "Create todo_write todo per item" [label="yes"];
+    "Has checklist?" -> "Track progress with todo_write\n(only for multi-step execution skills,\nmark each step completed before ending turn)" [label="yes"];
     "Has checklist?" -> "Follow skill exactly" [label="no"];
-    "Create todo_write todo per item" -> "Follow skill exactly";
+    "Track progress with todo_write\n(only for multi-step execution skills,\nmark each step completed before ending turn)" -> "Follow skill exactly";
 }
 ```
 

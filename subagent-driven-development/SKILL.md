@@ -116,6 +116,16 @@ task tool:
 
 **Iterative fix loops (Reasonix advantage):** When a reviewer finds issues and the implementer needs to fix them, you can use `continue_from` with the implementer's subagent reference (`sa_...`) to resume the same session with full context retained. This is more efficient than starting fresh.
 
+## todo_write and Multi-Turn Safety
+
+When using `todo_write` to track plan tasks during execution, follow these rules to avoid blocking Reasonix's readiness check:
+
+- **Create the todo list once** when you start executing the plan (one item per plan task).
+- **Mark a task in_progress** right before you dispatch the implementer subagent for it.
+- **Mark it completed** right after the code quality reviewer approves — before doing anything else.
+- **Never end your turn with a task still in_progress.** If you need to pause between tasks, mark the current task completed (or remove it) and end cleanly.
+- If a subagent reports BLOCKED and you need to ask the user for guidance, mark the task completed first, then ask.
+
 ## Model Selection
 
 Use the least powerful model that can handle each role to conserve cost and increase speed. Pass via the `model` parameter on the `task` tool.

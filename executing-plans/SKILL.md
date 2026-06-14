@@ -18,8 +18,8 @@ Load plan, review critically, execute all tasks, report when complete.
 ### Step 1: Load and Review Plan
 1. Read plan file (via `read_file`)
 2. Review critically — identify any questions or concerns about the plan
-3. If concerns: Raise them with your human partner before starting
-4. If no concerns: Create `todo_write` and proceed
+3. If concerns: Raise them with your human partner before starting. **End your turn** and wait for their response — do not create the todo list yet.
+4. If no concerns: Create `todo_write` with all plan tasks and proceed to Step 2
 
 ### Step 2: Execute Tasks
 
@@ -28,6 +28,8 @@ For each task:
 2. Follow each step exactly (plan has bite-sized steps)
 3. Run verifications as specified (via `bash`)
 4. Mark as completed via `todo_write`
+
+**Important:** The todo list tracks execution progress. All tasks are executed by you autonomously — if a task requires user input, mark the current task completed (or remove it from the list), end your turn to get the user's response, then resume with a fresh todo list. Never leave a todo item in_progress across turns.
 
 ### Step 3: Complete Development
 
