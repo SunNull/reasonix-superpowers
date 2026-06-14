@@ -19,15 +19,15 @@ Every project goes through this process. A todo list, a single-function utility,
 
 ## Checklist
 
-You MUST create a task for each of these items via `todo_write` and complete them in order:
+Follow these steps in order. Use `todo_write` to track them when the design spans multiple turns — but create the todo list **only when you are about to enter a multi-turn exploration/design loop**, not at the very start of the conversation. Each step that requires user input (steps 2, 3, 4, 7) is a natural turn boundary — mark the current step completed and respond to the user; do NOT leave todo items perpetually in_progress across turns.
 
 1. **Explore project context** — check files, docs, recent commits (use `read_file`, `grep`, `bash` for git log)
-2. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria (use `ask` tool for structured choices when appropriate)
-3. **Propose 2-3 approaches** — with trade-offs and your recommendation
-4. **Present design** — in sections scaled to their complexity, get user approval after each section
+2. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria (use `ask` tool for structured choices when appropriate). **Mark this todo completed before ending your turn** so the user can respond.
+3. **Propose 2-3 approaches** — with trade-offs and your recommendation (use `ask` tool). **Mark this todo completed before ending your turn.**
+4. **Present design** — in sections scaled to their complexity, get user approval after each section. **Mark this todo completed before ending your turn.**
 5. **Write design doc** — save to `docs/specs/YYYY-MM-DD-<topic>-design.md` and commit
 6. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below)
-7. **User reviews written spec** — ask user to review the spec file before proceeding
+7. **User reviews written spec** — ask user to review the spec file before proceeding. **Mark this todo completed before ending your turn.**
 8. **Transition to implementation** — invoke writing-plans skill via `run_skill({name: "writing-plans"})`
 
 ## Process Flow
