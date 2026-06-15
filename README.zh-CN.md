@@ -43,7 +43,9 @@
 
 ## 安装方式
 
-### 方式一：通过 Reasonix 安装（推荐）
+> **这是一套通用型开发方法论 skill 包**，不针对任何特定项目。**强烈推荐全局安装**，这样所有项目都能使用。项目级安装可选——仅当你需要项目专属的 skill 集合或版本锁定时才用。
+
+### 方式一：通过 Reasonix 安装（推荐 — 全局）
 
 在 Reasonix 会话中运行：
 
@@ -57,21 +59,21 @@ install skills from https://github.com/SunNull/reasonix-superpowers
 /install-capability https://github.com/SunNull/reasonix-superpowers
 ```
 
-### 方式二：手动 clone
+为确保全局安装，请在主目录下运行（不打开任何项目工作区），或在 Reasonix 版本支持时指定 `scope=global`。
 
-这是一套通用开发方法论 skill 包，不针对任何特定项目。**推荐全局安装**，这样所有项目都能使用。
+### 方式二：手动 clone（全局 — 推荐）
 
 ```sh
-# 全局安装（推荐 — 所有项目可用）
+# 全局安装（推荐）— 所有项目可用
 git clone https://github.com/SunNull/reasonix-superpowers.git \
   ~/.reasonix/skills/superpowers
 
-# 项目级安装（仅当前项目）
+# 项目级安装（可选）— 仅当前项目
 git clone https://github.com/SunNull/reasonix-superpowers.git \
   .reasonix/skills/superpowers
 ```
 
-Reasonix 会自动发现 `~/.reasonix/skills/`（全局）和 `.reasonix/skills/`（项目）下的 skill。每个 `<name>/SKILL.md` 会被自动识别；`references/*.md` 文件会自动追加到 skill body 中。
+Reasonix 会自动发现 `~/.reasonix/skills/`（全局）和 `.reasonix/skills/`（项目）下的 skill。每个 `<name>/SKILL.md` 会被自动识别；`references/*.md` 文件会自动追加到 skill body 中。全局 skill 对所有项目生效；项目级 skill 在同名时覆盖全局。
 
 ### 验证安装
 

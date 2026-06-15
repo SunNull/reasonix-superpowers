@@ -43,7 +43,9 @@ This repo adapts its **14 core skills** to Reasonix's skill system — preservin
 
 ## Installation
 
-### Option 1: Install via Reasonix (recommended)
+> **These are general-purpose skills** — a development methodology, not tied to any specific project. **Install GLOBALLY (recommended)** so every project benefits. Project-scope install is supported but optional (use it only when you want a project-specific skill set or version pin).
+
+### Option 1: Install via Reasonix (recommended — global)
 
 In a Reasonix session, run:
 
@@ -57,19 +59,21 @@ Or use the install-capability skill:
 /install-capability https://github.com/SunNull/reasonix-superpowers
 ```
 
-### Option 2: Manual clone
+To ensure a global install, run the command from your home directory (no project workspace open), or pass `scope=global` if your Reasonix version supports it.
+
+### Option 2: Manual clone (global — recommended)
 
 ```sh
-# Project scope (this project only)
-git clone https://github.com/SunNull/reasonix-superpowers.git \
-  .reasonix/skills/superpowers
-
-# Global scope (all projects)
+# GLOBAL (recommended) — all projects can use these skills
 git clone https://github.com/SunNull/reasonix-superpowers.git \
   ~/.reasonix/skills/superpowers
+
+# Project-scope (optional) — this project only
+git clone https://github.com/SunNull/reasonix-superpowers.git \
+  .reasonix/skills/superpowers
 ```
 
-Reasonix auto-discovers skills under `.reasonix/skills/` (project) and `~/.reasonix/skills/` (global). Each `<name>/SKILL.md` is picked up automatically; `references/*.md` files are auto-appended to the skill body.
+Reasonix auto-discovers skills under `~/.reasonix/skills/` (global) and `.reasonix/skills/` (project). Each `<name>/SKILL.md` is picked up automatically; `references/*.md` files are auto-appended to the skill body. Global skills apply to every project; project skills override globals on name collision.
 
 ### Verify installation
 
