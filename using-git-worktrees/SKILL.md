@@ -1,6 +1,6 @@
 ---
 name: using-git-worktrees
-description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans — ensures an isolated workspace exists via git worktree
+description: "Feature work needing isolation? run_skill THIS to ensure an isolated git worktree exists before you build."
 ---
 
 # Using Git Worktrees

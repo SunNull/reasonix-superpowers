@@ -1,6 +1,6 @@
 ---
 name: test-driven-development
-description: Use when implementing any feature or bugfix, before writing implementation code
+description: "Writing implementation code? run_skill THIS first. RED-GREEN-REFACTOR; no code without a failing test."
 ---
 
 # Test-Driven Development (TDD)

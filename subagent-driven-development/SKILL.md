@@ -1,6 +1,6 @@
 ---
 name: subagent-driven-development
-description: Use when executing implementation plans with independent tasks in the current session
+description: "Executing a plan? run_skill THIS to dispatch a fresh subagent per task with two-stage review."
 ---
 
 # Subagent-Driven Development
@@ -57,7 +57,7 @@ digraph process {
         "Dispatch code quality reviewer subagent" [shape=box];
         "Code quality reviewer subagent approves?" [shape=diamond];
         "Implementer subagent fixes quality issues" [shape=box];
-        "Mark task complete in todo_write" [shape=box];
+        "Sign off task via complete_step (evidence)" [shape=box];
     }
 
     "Read plan, extract all tasks, create todo_write" [shape=box];
@@ -78,8 +78,8 @@ digraph process {
     "Dispatch code quality reviewer subagent" -> "Code quality reviewer subagent approves?";
     "Code quality reviewer subagent approves?" -> "Implementer subagent fixes quality issues" [label="no"];
     "Implementer subagent fixes quality issues" -> "Dispatch code quality reviewer subagent" [label="re-review"];
-    "Code quality reviewer subagent approves?" -> "Mark task complete in todo_write" [label="yes"];
-    "Mark task complete in todo_write" -> "More tasks remain?";
+    "Code quality reviewer subagent approves?" -> "Sign off task via complete_step (evidence)" [label="yes"];
+    "Sign off task via complete_step (evidence)" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch implementer subagent" [label="yes"];
     "More tasks remain?" -> "Dispatch final code reviewer subagent for entire implementation" [label="no"];
     "Dispatch final code reviewer subagent for entire implementation" -> "Use finishing-a-development-branch skill";
@@ -116,15 +116,15 @@ task tool:
 
 **Iterative fix loops (Reasonix advantage):** When a reviewer finds issues and the implementer needs to fix them, you can use `continue_from` with the implementer's subagent reference (`sa_...`) to resume the same session with full context retained. This is more efficient than starting fresh.
 
-## todo_write and Multi-Turn Safety
+## todo_write / complete_step and Multi-Turn Safety
 
 When using `todo_write` to track plan tasks during execution, follow these rules to avoid blocking Reasonix's readiness check:
 
 - **Create the todo list once** when you start executing the plan (one item per plan task).
 - **Mark a task in_progress** right before you dispatch the implementer subagent for it.
-- **Mark it completed** right after the code quality reviewer approves — before doing anything else.
-- **Never end your turn with a task still in_progress.** If you need to pause between tasks, mark the current task completed (or remove it) and end cleanly.
-- If a subagent reports BLOCKED and you need to ask the user for guidance, mark the task completed first, then ask.
+- **Sign it off with `complete_step`** right after the code quality reviewer approves — evidence must be the subagent references (`sa_...`) for the implementer + both reviewers, and/or the files changed. Empty evidence is rejected, so a bare "task done" claim without proof will fail.
+- **Never end your turn with a task still in_progress.** If you need to pause between tasks, `complete_step` the current task with evidence (or remove it) and end cleanly.
+- If a subagent reports BLOCKED and you need to ask the user for guidance, `complete_step` the task first (evidence: the blocker the subagent reported), then use the `ask` tool to get direction.
 
 ## Model Selection
 

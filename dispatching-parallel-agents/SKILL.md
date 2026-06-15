@@ -1,6 +1,6 @@
 ---
 name: dispatching-parallel-agents
-description: Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies
+description: "Facing 2+ independent tasks? run_skill THIS to dispatch concurrent subagents instead of serial work."
 ---
 
 # Dispatching Parallel Agents

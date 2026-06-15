@@ -10,7 +10,7 @@ Skills in this pack use generic tool names adapted from Claude Code. When you en
 | Multiple `Task` calls (parallel) | Multiple `task` calls with `run_in_background: true` |
 | Task status/output | Collect via `wait` tool; notified when done |
 | `Skill` tool (invoke a skill) | `run_skill` tool |
-| `TodoWrite` (task tracking) | `todo_write` tool |
+| `TodoWrite` (task tracking) | `todo_write` tool (planning) / `complete_step` tool (sign off a step WITH evidence — command/diff/files; empty evidence is rejected) |
 | `Read` (file reading) | `read_file` tool |
 | `Write` (file creation) | `write_file` tool |
 | `Edit` (file editing) | `edit_file` tool |
@@ -79,3 +79,25 @@ BRANCH=$(git branch --show-current)
 - **No native worktree tool**: Reasonix has no `EnterWorktree` equivalent. Always use the `git worktree add` fallback path (Step 1b in using-git-worktrees).
 - **No EnterPlanMode tool**: Present designs and plans as text in your reply. The user reviews and approves before you proceed to implementation.
 - **Visual companion**: The browser-based visual companion from brainstorming is not available. Use terminal-based presentation (text descriptions, ASCII diagrams) or the `ask` tool for structured choices instead.
+
+## Reasonix Skill Triggering
+
+This is the most important platform difference. **Reasonix does NOT auto-load skill bodies at session start.** Claude Code and Gemini CLI both preload skill metadata (or auto-inject a bootstrap skill) so the framework's workflows engage automatically. Reasonix does not — it only pins each skill's one-line `description` into the system prompt as an index, and loads the full body on demand when YOU call `run_skill`.
+
+Consequences for this skill pack:
+
+- **The `using-superpowers` bootstrap is not auto-injected.** In Claude Code it runs at every session start; in Reasonix it is just another index line unless you choose to `run_skill` it. The same applies to every downstream skill (brainstorming, test-driven-development, etc.) — they only fire if you invoke them.
+- **You are the trigger.** Before responding to any user message, scan the `# Skills` index block in your system prompt. If even one skill is plausibly relevant, call `run_skill({ name: "<skill-name>" })` to load it, THEN follow it. Loading one imperfect skill is cheap; skipping a skill that applied is the failure mode.
+- **Prefer `ask` over prose questions.** Reasonix's system prompt explicitly says: for any real fork (approach, library, scope), call the `ask` tool with 2-4 structured options instead of asking in prose. When a skill says "ask the user", use the `ask` tool — not an open-ended prose question — unless the question is genuinely open-ended.
+- **Sign off steps with evidence.** Reasonix has `complete_step`, a stronger primitive than `todo_write`: finishing a sub-task requires evidence (a command that ran, a diff, files touched); empty evidence is rejected. When a skill's checklist says "mark this todo completed", prefer `complete_step` with concrete evidence over a bare `todo_write` flip.
+
+### Trigger self-check (every turn)
+
+Before you write any code, answer, or clarifying question, run this checklist:
+
+1. What kind of task is this? (new feature → brainstorming; bug → systematic-debugging; plan to execute → executing-plans / subagent-driven-development; claiming done → verification-before-completion; etc.)
+2. Scan the `# Skills` index for a matching skill.
+3. If one matches even plausibly → `run_skill` it NOW, before anything else.
+4. Follow the loaded skill's workflow exactly.
+
+If you skip this check and act directly, you are breaking the methodology this pack exists to enforce.

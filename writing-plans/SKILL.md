@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: Use when you have a spec or requirements for a multi-step task, before touching code
+description: "Have a spec for a multi-step task? run_skill THIS before touching code. Breaks work into TDD tasks with file paths."
 ---
 
 # Writing Plans

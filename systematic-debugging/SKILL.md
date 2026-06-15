@@ -1,6 +1,6 @@
 ---
 name: systematic-debugging
-description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+description: "Hit a bug or test failure? run_skill THIS BEFORE any fix. 4-phase root cause investigation; no guessing."
 ---
 
 # Systematic Debugging

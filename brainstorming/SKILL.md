@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "You MUST use this before any creative work — creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+description: "Before writing ANY code for a new feature/component — run_skill THIS FIRST. No code until design is approved."
 ---
 
 # Brainstorming Ideas Into Designs
@@ -19,16 +19,16 @@ Every project goes through this process. A todo list, a single-function utility,
 
 ## Checklist
 
-Follow these steps in order. Use `todo_write` to track them when the design spans multiple turns — but create the todo list **only when you are about to enter a multi-turn exploration/design loop**, not at the very start of the conversation. Each step that requires user input (steps 2, 3, 4, 7) is a natural turn boundary — mark the current step completed and respond to the user; do NOT leave todo items perpetually in_progress across turns.
+Follow these steps in order. Use `todo_write` to plan the steps, then sign each off with `complete_step` (it requires evidence — the command you ran, the file you wrote, or the ask result; empty evidence is rejected). Create the todo list **only when you are about to enter a multi-turn exploration/design loop**, not at the very start of the conversation. Each step that requires user input (steps 2, 3, 4, 7) is a natural turn boundary — `complete_step` the current step with evidence, then respond to the user; do NOT leave todo items perpetually in_progress across turns.
 
-1. **Explore project context** — check files, docs, recent commits (use `read_file`, `grep`, `bash` for git log)
-2. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria (use `ask` tool for structured choices when appropriate). **Mark this todo completed before ending your turn** so the user can respond.
-3. **Propose 2-3 approaches** — with trade-offs and your recommendation (use `ask` tool). **Mark this todo completed before ending your turn.**
-4. **Present design** — in sections scaled to their complexity, get user approval after each section. **Mark this todo completed before ending your turn.**
-5. **Write design doc** — save to `docs/specs/YYYY-MM-DD-<topic>-design.md` and commit
-6. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below)
-7. **User reviews written spec** — ask user to review the spec file before proceeding. **Mark this todo completed before ending your turn.**
-8. **Transition to implementation** — invoke writing-plans skill via `run_skill({name: "writing-plans"})`
+1. **Explore project context** — check files, docs, recent commits (use `read_file`, `grep`, `bash` for git log). `complete_step` with the commands/files as evidence.
+2. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria. **Use the `ask` tool** for any question with a finite set of answers (pick one of N options); only use an open-ended prose question when no structured form fits. `complete_step` with the ask tool's returned choice (or your open question text) as evidence, so the user can respond.
+3. **Propose 2-3 approaches** — with trade-offs and your recommendation. **Use the `ask` tool** to let the user pick. `complete_step` with the chosen approach as evidence.
+4. **Present design** — in sections scaled to their complexity. **Use the `ask` tool** to get approval after each section (options like "approve / revise section X / revise whole design"). `complete_step` once the full design is approved.
+5. **Write design doc** — save to `docs/specs/YYYY-MM-DD-<topic>-design.md` and commit. `complete_step` with the written file path as evidence.
+6. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below). `complete_step` noting what you checked/fixed.
+7. **User reviews written spec** — **use the `ask` tool** to request spec review (options: "approved / changes requested"), referencing the spec path. `complete_step` with the user's decision as evidence.
+8. **Transition to implementation** — invoke writing-plans skill via `run_skill({name: "writing-plans"})`. `complete_step` confirming the handoff.
 
 ## Process Flow
 
@@ -124,11 +124,11 @@ For complex specs, you can dispatch a spec reviewer subagent to verify completen
 Use the `task` tool with the spec-reviewer prompt template (see Reference: spec-document-reviewer-prompt below). Fill in the `prompt` parameter with the complete template, replacing `[SPEC_FILE_PATH]` with the actual path.
 
 **User Review Gate:**
-After the spec review loop passes, ask the user to review the written spec before proceeding:
+After the spec review loop passes, use the `ask` tool to request spec review — do NOT just ask in prose. Frame it as a structured choice:
 
-> "Spec written and committed to `<path>`. Please review it and let me know if you want to make any changes before we start writing out the implementation plan."
+> `ask`: header "Spec review" — question "Spec written and committed to `<path>`. Review it and let me know if you want changes before I write the implementation plan." — options: "Approved — proceed to plan", "Changes requested" (put approved first as the recommended option)
 
-Wait for the user's response. If they request changes, make them and re-run the spec review loop. Only proceed once the user approves.
+If the user picks "Changes requested", make the changes and re-run the spec review loop. Only proceed once the user approves.
 
 **Implementation:**
 

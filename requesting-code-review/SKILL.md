@@ -1,6 +1,6 @@
 ---
 name: requesting-code-review
-description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
+description: "Completed a task or merging? run_skill THIS to dispatch a read-only code-review subagent before shipping."
 ---
 
 # Requesting Code Review

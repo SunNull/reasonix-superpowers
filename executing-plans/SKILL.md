@@ -1,6 +1,6 @@
 ---
 name: executing-plans
-description: Use when you have a written implementation plan to execute in a separate session with review checkpoints
+description: "Have a written plan to execute? run_skill THIS to drive it with human review checkpoints at each gate."
 ---
 
 # Executing Plans
@@ -18,7 +18,7 @@ Load plan, review critically, execute all tasks, report when complete.
 ### Step 1: Load and Review Plan
 1. Read plan file (via `read_file`)
 2. Review critically — identify any questions or concerns about the plan
-3. If concerns: Raise them with your human partner before starting. **End your turn** and wait for their response — do not create the todo list yet.
+3. If concerns: Raise them using the `ask` tool (header "Plan review" — question listing your concerns — options like "Proceed as-is", "I'll revise the plan" / or the specific concern as options). Wait for the user's response — do not create the todo list yet.
 4. If no concerns: Create `todo_write` with all plan tasks and proceed to Step 2
 
 ### Step 2: Execute Tasks
@@ -27,9 +27,9 @@ For each task:
 1. Mark as in_progress via `todo_write`
 2. Follow each step exactly (plan has bite-sized steps)
 3. Run verifications as specified (via `bash`)
-4. Mark as completed via `todo_write`
+4. Sign off the task with `complete_step` — evidence must be the verification command(s) you ran and their result, or the files you changed. Empty evidence is rejected, so you cannot claim a task done without proof.
 
-**Important:** The todo list tracks execution progress. All tasks are executed by you autonomously — if a task requires user input, mark the current task completed (or remove it from the list), end your turn to get the user's response, then resume with a fresh todo list. Never leave a todo item in_progress across turns.
+**Important:** The todo list tracks execution progress. All tasks are executed by you autonomously — if a task requires user input, `complete_step` the current task with evidence (what you did + the question), end your turn to get the user's response, then resume. Never leave a todo item in_progress across turns.
 
 ### Step 3: Complete Development
 

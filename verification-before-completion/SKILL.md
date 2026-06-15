@@ -1,6 +1,6 @@
 ---
 name: verification-before-completion
-description: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs — requires running verification commands and confirming output before making any success claims; evidence before assertions always
+description: "About to claim work is done? run_skill THIS. RUN verification, read output, THEN claim success."
 ---
 
 # Verification Before Completion

@@ -1,6 +1,6 @@
 ---
 name: writing-skills
-description: Use when creating new skills, editing existing skills, or verifying skills work before deployment
+description: "Creating or editing a skill? run_skill THIS to apply TDD to process docs — write, test via subagents, iterate."
 ---
 
 # Writing Skills

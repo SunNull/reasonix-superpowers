@@ -1,6 +1,6 @@
 ---
 name: using-superpowers
-description: Use when starting any conversation — establishes how to find and use skills, requiring run_skill invocation before ANY response including clarifying questions. This is the bootstrap that makes all other skills trigger automatically.
+description: "Bootstrap: run_skill THIS FIRST. Reasonix does NOT auto-load skills - scan the index, run_skill relevant ones."
 ---
 
 <SUBAGENT-STOP>
@@ -27,9 +27,16 @@ If REASONIX.md or AGENTS.md says "don't use TDD" and a skill says "always use TD
 
 ## How to Access Skills
 
-**In Reasonix:** Use the `run_skill` tool. When you invoke a skill, its content is loaded and presented to you — follow it directly. Never use `read_file` on skill files directly (use `read_skill` if you need to preview without running).
+**In Reasonix:** Reasonix does NOT auto-load skill bodies at session start (unlike Claude Code / Gemini CLI). Only each skill's one-line `description` enters your system prompt as a pinned index. The full skill body loads ONLY when you call `run_skill`. This means:
 
-**Tool mapping:** Skills in this pack reference tools by adapted names. See the Reference: reasonix-tools section below for the full mapping table. Key mappings: `Task` → `task`, `Skill` → `run_skill`, `TodoWrite` → `todo_write`, `Read` → `read_file`, `Write` → `write_file`, `Edit` → `edit_file`.
+- **You are the trigger.** No platform bootstrap invokes skills for you. If you don't `run_skill`, the skill never runs — its workflow, gates, and checklists never enter your context.
+- **Scan the index every turn.** Before responding to any user message, scan the `# Skills` index block in your system prompt. If even one skill is plausibly relevant to the task, call `run_skill({ name: "<skill-name>" })` to load it, THEN follow it.
+- **Load before you act.** Invoke a relevant skill BEFORE writing code, answering, or asking clarifying questions. Loading one imperfect skill is cheap; skipping a skill that applied is the failure mode.
+- **Announce it.** After loading, state: "Using `<skill>` to <purpose>" so the user knows which workflow is active.
+
+**Tool mapping:** Skills in this pack reference tools by adapted names. See the Reference: reasonix-tools section below for the full mapping table, including the **Reasonix Skill Triggering** subsection that complements this. Key mappings: `Task` → `task`, `Skill` → `run_skill`, `TodoWrite` → `todo_write` (or `complete_step` for evidence-gated sign-off), `Read` → `read_file`, `Write` → `write_file`, `Edit` → `edit_file`.
+
+**Why this matters:** This pack was adapted from a Claude Code original where the platform auto-injected this bootstrap skill at every session start. Reasonix has no such mechanism — the `using-superpowers` bootstrap is just another line in the index unless YOU choose to load it. The same is true of every downstream skill (brainstorming, test-driven-development, etc.): they only fire if you `run_skill` them. Treat the index as your todo list of skills to consider, every single turn.
 
 # Using Skills
 
@@ -47,7 +54,7 @@ digraph skill_flow {
     "Invoke run_skill tool" [shape=box];
     "Announce: 'Using [skill] to [purpose]'" [shape=box];
     "Has checklist?" [shape=diamond];
-    "Track progress with todo_write\n(only for multi-step execution skills,\nmark each step completed before ending turn)" [shape=box];
+    "Track progress with todo_write / complete_step\n(todo_write for planning; complete_step to\nsign off a step WITH evidence before ending turn)" [shape=box];
     "Follow skill exactly" [shape=box];
     "Respond (including clarifications)" [shape=doublecircle];
 
@@ -61,9 +68,9 @@ digraph skill_flow {
     "Might any skill apply?" -> "Respond (including clarifications)" [label="definitely not"];
     "Invoke run_skill tool" -> "Announce: 'Using [skill] to [purpose]'";
     "Announce: 'Using [skill] to [purpose]'" -> "Has checklist?";
-    "Has checklist?" -> "Track progress with todo_write\n(only for multi-step execution skills,\nmark each step completed before ending turn)" [label="yes"];
+    "Has checklist?" -> "Track progress with todo_write / complete_step\n(todo_write for planning; complete_step to\nsign off a step WITH evidence before ending turn)" [label="yes"];
     "Has checklist?" -> "Follow skill exactly" [label="no"];
-    "Track progress with todo_write\n(only for multi-step execution skills,\nmark each step completed before ending turn)" -> "Follow skill exactly";
+    "Track progress with todo_write / complete_step\n(todo_write for planning; complete_step to\nsign off a step WITH evidence before ending turn)" -> "Follow skill exactly";
 }
 ```
 
